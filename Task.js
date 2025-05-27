@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const Task = ({ taskName, id, completed, deleteTask, completeTask, editTask }) => {
+export const Task = ({ taskName, id, completed, deleteTask, toggleComplete, editTask }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTaskName, setEditedTaskName] = useState(taskName);
 
@@ -10,7 +10,7 @@ export const Task = ({ taskName, id, completed, deleteTask, completeTask, editTa
 
   const handleSave = () => {
     if (editedTaskName.trim() !== "") {
-      editTask(id, editedTaskName);
+      editTask(id, editedTaskName.trim());
       setIsEditing(false);
     }
   };
@@ -37,9 +37,17 @@ export const Task = ({ taskName, id, completed, deleteTask, completeTask, editTa
         ) : (
           <button className="completeBtn" onClick={() => setIsEditing(true)}>Edit</button>
         )}
+
+        {/* Show "Complete" button if NOT completed */}
         {!completed && (
-          <button className="completeBtn" onClick={() => completeTask(id)}>Complete</button>
+          <button className="completeBtn" onClick={() => toggleComplete(id)}>Complete</button>
         )}
+
+        {/* Show "Undo" button if completed */}
+        {completed && (
+          <button className="completeBtn" onClick={() => toggleComplete(id)}>Undo</button>
+        )}
+
         <button className="deleteBtn" onClick={() => deleteTask(id)}>Delete</button>
       </div>
     </div>
