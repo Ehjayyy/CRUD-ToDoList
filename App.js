@@ -24,49 +24,40 @@ function App() {
     setTodoList(todoList.filter((task) => task.id !== id));
   };
 
-  const completeTask = (id) => {
+  const toggleComplete = (id) => {
     setTodoList(
-      todoList.map((task) => {
-        if (task.id === id) {
-          return { ...task, completed: true };
-        } else {
-          return task;
-        }
-      })
+      todoList.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
     );
   };
 
-  const editTask = (id, newName) => {
+   const editTask = (id, newName) => {
     setTodoList(
-      todoList.map((task) => {
-        if (task.id === id) {
-          return { ...task, taskName: newName };
-        }
-        return task;
-      })
+      todoList.map((task) =>
+        task.id === id ? { ...task, taskName: newName } : task
+      )
     );
   };
 
-  return (
+   return (
     <div className="App">
       <div className="addTask">
-        <input value={newTask} onChange={handleChange} />
+        <input onChange={handleChange} value={newTask} placeholder="Add a task..." />
         <button onClick={addTask}>Add Task</button>
       </div>
       <div className="list">
-        {todoList.map((task) => {
-          return (
-            <Task
-              key={task.id}
-              taskName={task.taskName}
-              id={task.id}
-              completed={task.completed}
-              deleteTask={deleteTask}
-              completeTask={completeTask}
-              editTask={editTask}
-            />
-          );
-        })}
+        {todoList.map((task) => (
+          <Task
+            key={task.id}
+            taskName={task.taskName}
+            id={task.id}
+            completed={task.completed}
+            deleteTask={deleteTask}
+            toggleComplete={toggleComplete}
+            editTask={editTask}
+          />
+        ))}
       </div>
     </div>
   );
